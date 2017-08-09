@@ -61,7 +61,7 @@
  	<p>
         Click then drag to draw a bounding box. <br>
         Make sure the correct object class is selected. <br>
-		Shortcuts: s for submit; qwerty for class selection; esc to cancel current box.
+		Shortcuts: p/n for prev/next; qwerty for class selection; esc to cancel current box.
     </p>
 	<center/>
 
@@ -82,8 +82,11 @@
     <div  style="margin-left:auto; margin-right:auto;">
         <div class="row" style="margin-left:auto; margin-right:auto;">
             <div class="col-xs-100" style="margin-left:auto; margin-right:auto;">
-                <button type="button" id="submit" value="submit" class="btn btn-primary btn-lg continue">
-                	Submit <span class="glyphicon glyphicon-arrow-right"></span>
+				<button type="button" id="prev" value="prev" class="btn btn-primary btn-lg continue">
+                	<span class="glyphicon glyphicon-arrow-left"></span> Prev
+                </button>
+                <button type="button" id="next" value="next" class="btn btn-primary btn-lg continue">
+                	Next <span class="glyphicon glyphicon-arrow-right"></span>
                 </button>
             </div>
         </div>

@@ -1,40 +1,47 @@
-function set_dim(canvas) {
-	dim = 420
-	canvas.width = dim;
-	canvas.height = dim;
-}
-
 var imgcanvas = document.getElementById("imgcanvas");
-set_dim(imgcanvas);
-var imgctx = imgcanvas.getContext("2d");
-var bgImage = new Image();
-bgImage.onload = function () {
-	imgctx.drawImage(bgImage, 0, 0, 420, 420);
-}
-
 var bboxcanvas = document.getElementById("bboxcanvas");
-set_dim(bboxcanvas);
-var ctx = bboxcanvas.getContext("2d");
+
+// canvas.style.visibility = "visible";
 
 // addr = '128.32.37.232'
 addr = '0.0.0.0'
 
+var imgctx = imgcanvas.getContext("2d");
+var ctx = bboxcanvas.getContext("2d");
+
+imgcanvas.width = 420;
+imgcanvas.height = 420;
+bboxcanvas.width = 420;
+bboxcanvas.height = 420;
+
 workerID = psiTurk.taskdata.get('workerId')
 console.log(psiTurk)
+
+// Background image
+var bgImage = new Image();
+// bgImage.src = "static/images/background.jpg"
+bgImage.onload = function () {
+	imgctx.drawImage(bgImage, 0, 0, 420, 420);
+}
+
+// Handle keyboard controls
+var keysDown = {};
 
 //bounding boxes
 curr_boxes = [];
 drawing = false;
-canDraw = true;
 
+//labels to html
 labels = ["oatmeal", "mustard", "syrup", "mayonnaise", "salad dressing"];
 var labelHTML = "";
 for (i = 0; i < labels.length; i += 1) {
 	labelHTML += "<button class='dropmenu-btn' id='drop" + i + "'>" + labels[i] + "</button>\n"
 }
 document.getElementById("labelmenu").innerHTML = labelHTML;
-update_label(labels[0]);
+
 hotkeys = ["q", "w", "e", "r", "t"]
+
+update_label(labels[0]);
 colors = ['#FF0000', '#0000FF', '#00FFFF', '#00FF00', '#000000'];
 color_ind = 0;
 
@@ -45,34 +52,37 @@ addEventListener("keydown", function (e) {
 			update_label(labels[i]);
 		}
 	}
-	if (e.keyCode == "s".charCodeAt(0) - 32) {
-		updateData();
+	if (e.keyCode == "n".charCodeAt(0) - 32) {
+		updateData("next");
+		updateImg("next");
+	}
+	if (e.keyCode == "p".charCodeAt(0) - 32) {
+		updateData("prev");
+		updateImg("prev");
 	}
 	esc_code = 27
-	if (e.keyCode == esc_code) {
+	if (e.keyCode == 27) {
 		drawing = false;
 	}
 }, false);
 
 addEventListener("mousedown", function (e) {
-	if (canDraw) {
-		pos = mouseToPos(e.clientX, e.clientY);
-		if (pos) {
-			if (drawing){
-				//record the bounding box
-				x1 = Math.min(old_pose[0], curr_pose[0]);
-				x2 = Math.max(old_pose[0], curr_pose[0]);
-				y1 = Math.min(old_pose[1], curr_pose[1]);
-				y2 = Math.max(old_pose[1], curr_pose[1]);
+	pos = mouseToPos(e.clientX, e.clientY);
+	if (pos) {
+		if (drawing){
+			//record the bounding box
+			x1 = Math.min(old_pose[0], curr_pose[0]);
+			x2 = Math.max(old_pose[0], curr_pose[0]);
+			y1 = Math.min(old_pose[1], curr_pose[1]);
+			y2 = Math.max(old_pose[1], curr_pose[1]);
 
-				addBbox([x1, y1, x2, y2], curr_label);
-				drawing = false;
-			}
-			else {
-				drawing = true;
-				curr_pose = pos;
-				old_pose = pos;
-			}
+			addBbox([x1, y1, x2, y2], curr_label);
+			drawing = false;
+		}
+		else {
+			drawing = true;
+			curr_pose = pos;
+			old_pose = pos;
 		}
 	}
 }, false);
@@ -118,12 +128,15 @@ document.getElementById('clear').onclick = function() {
 	clearData();
 };
 
-document.getElementById('submit').onclick = function() {
-	updateData();
-	updateImg(
-
-	);
+document.getElementById('next').onclick = function() {
+	updateData("next");
+	updateImg("next");
 };
+document.getElementById('prev').onclick = function() {
+	updateData("prev");
+	updateImg("prev");
+};
+
 function update_label(label_val) {
 	curr_label = label_val;
 	document.getElementById("clabel").innerHTML = curr_label;
@@ -144,9 +157,13 @@ var mouseToPos = function(x, y){
 	return (x < rect.left || x > rect.right || y > rect.bottom || y < rect.top) ? false : [x - rect.left, y - rect.top];
 }
 
-function updateData() {
-	feedback = []
 
+function updateData(direction) {
+	feedback = []
+	feedback.push({
+		key: "dir",
+		value: direction
+	})
 	for (i = 0; i < curr_boxes.length; i += 1) {
 		datapoint = curr_boxes[i]
 		coords = datapoint[0]
@@ -166,18 +183,28 @@ function updateData() {
 	}
 	clearData();
 
-	bgImage.src = "static/images/workerbot.jpg"
-	canDraw = false;
-
 	$.ajax('http://'+addr+':5000/state_feed', {
         type: "GET",
         data: feedback,
 		success: function( response ) {
-			bgImage.src = 'http://' + addr + ':5000/image/' + workerID
-			canDraw = true;
+		    load_data = response.next_data
+			if (load_data != -1) {
+				for (i = 0; i < load_data.length; i += 1) {
+					label = load_data[i][1]
+					bbox = load_data[i][0].split(",")
+					for (j = 0; j < bbox.length; j += 1) {
+						bbox[j] = +bbox[j];
+					}
+					addBbox([bbox[0], bbox[1], bbox[2], bbox[3]], label);
+				}
+			}
 		}
     });
 };
+
+function updateImg(direction) {
+	bgImage.src = 'http://' + addr + ':5000/image_' + direction + '/' + workerID
+}
 
 function drawBox(poses)
 {
@@ -225,5 +252,6 @@ function getTextFile(path) {
 }
 
 //start up
-updateData();
+updateData("start");
+updateImg("start");
 main();

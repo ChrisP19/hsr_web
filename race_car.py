@@ -1,3 +1,4 @@
+# this file imports custom routes into the experiment server
 import sys
 
 sys.path.append('/Users/michaelluskey/Documents/RL/LFD/lapmaster1.1/')
@@ -11,6 +12,7 @@ from PIL import Image
 from flask import send_file
 import os
 
+import cPickle as pickle
 from flask import Blueprint, render_template, request, jsonify, Response, abort, current_app,make_response
 from jinja2 import TemplateNotFound
 from flask import Flask
@@ -33,14 +35,13 @@ import cv2
 config = PsiturkConfig()
 config.load_config()
 myauth = PsiTurkAuthorization(config)  # if you want to add a password protect route use this
-#api
-import Pyro4
 
 #
 # explore the Blueprint
 custom_code = Blueprint('custom_code', __name__, template_folder='templates', static_folder='static')
 custom_code = Flask(__name__)
 custom_code.config['PROPAGATE_EXCEPTIONS'] = True
+
 
 #rc11 = pickle.load(open('/Users/michaelluskey/Documents/RL/LFD/AMT_Experiment/RoboCont.p'))
 
@@ -85,55 +86,90 @@ def crossdomain(origin=None, methods=None, headers=None,
         return update_wrapper(wrapped_function, f)
     return decorator
 
-sharer = Pyro4.Proxy("PYRONAME:shared.server")
+worker_ind = 0
+edited = False
 
-def gen(username):
-    global sharer
-    name = sharer.get_img()
-    frame = open(name, "rb").read()
+def get_ind(ind, direction):
+    num_images = 10
+    return 0 if direction == 0 else (ind + direction) % (num_images + 1)
 
+def get_dir(val):
+    return {"start": 0, "next": 1, "prev": -1}[val]
+
+def gen(username, direction):
+    global worker_ind
+    global edited
+    if not edited:
+        worker_ind = get_ind(worker_ind, direction)
+        edited = True
+    else:
+        edited = False
+    frame = open("data/images/frame_" + str(worker_ind) + ".png", "rb").read()
     return (b'--frame\r\n'
            b'Content-Type: image/png\r\n\r\n' + frame + b'\r\n')
 
-@custom_code.route('/image/<username>')
+@custom_code.route('/image_<direction>/<username>')
 @crossdomain(origin='*')
-def image_get(username):
-    return Response(gen(username),mimetype='multipart/x-mixed-replace; boundary=frame')
+def image_get(direction, username):
+    return Response(gen(username, get_dir(direction)),mimetype='multipart/x-mixed-replace; boundary=frame')
 
 labelclasses = ["oatmeal", "mustard", "syrup", "mayonnaise", "salad dressing"] #preserve js ordering
 
 @custom_code.route('/state_feed')
 @crossdomain(origin='*')
 def state_feed():
-    global frame
-    global sharer
+    global worker_ind
+    global edited
+    data = dict(request.args)['undefined']
+    direction = data[0]
+    d = get_dir(direction)
 
-    if len(request.args) != 0:
-        data = dict(request.args)['undefined']
+    if not edited:
+        worker_ind = get_ind(worker_ind, d) #needs to be synced
+        edited = True
+    else:
+        edited = False
+    objects = []
+    #group by 3s
+    for datapoint in zip(*[data[1:][i::3] for i in range(3)]):
+        obj = {}
+        obj['box_index'] = datapoint[0]
+        obj['num_class_label'] = labelclasses.index(datapoint[1])
+        obj['wID'] = datapoint[2]
+        objects.append(obj)
+    old_ind = get_ind(worker_ind, d * -1)
+    path = "data/labels/" + str(old_ind) + ".p"
 
-        objects = []
-        #group by 3s
-        for datapoint in zip(*[data[i::3] for i in range(3)]):
-            obj = {}
-            obj['box_index'] = datapoint[0]
-            obj['num_class_label'] = labelclasses.index(datapoint[1])
-            obj['wID'] = datapoint[2]
-            objects.append(obj)
+    if len(objects) > 0:
+        label_data = {}
+        label_data['num_labels'] = len(objects)
+        label_data['objects'] = objects
+        pickle.dump(label_data, open(path,'wb'))
+    elif d != 0:
+        try:
+            os.remove(path)
+        except OSError:
+            pass
 
-            label_data = {}
-            label_data['num_labels'] = len(objects)
-            label_data['objects'] = objects
+    try:
+        next_data = pickle.load( open("data/labels/" + str(worker_ind) + ".p", "rb"))
+        all_data = []
+        for obj in next_data['objects']:
+            bounds = obj['box_index']
+            label = labelclasses[obj['num_class_label']]
+            all_data.append([bounds, label])
+        return jsonify(result={"status": 200}, next_data=all_data)
+    except (OSError, IOError) as e:
+        return jsonify(result={"status": 200}, next_data=-1)
 
-            sharer.set_label_data(label_data)
-            sharer.set_labeled(True)
 
-    print("server waiting")
-    while not sharer.is_img_ready():
-        pass
+@custom_code.route('/save_data')
+@crossdomain(origin='*')
+def save_data():
+	"""Return states of current image."""
+	data = dict(request.args)
 
-    sharer.set_img_ready(False)
-
-    return jsonify(result={"status": 200})
+	return jsonify(result={"status": 200})
 
 if __name__ == '__main__':
     print "running"
