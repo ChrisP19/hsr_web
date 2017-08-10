@@ -115,8 +115,11 @@ def state_feed():
         #group by 3s
         for datapoint in zip(*[data[i::3] for i in range(3)]):
             obj = {}
-            obj['box_index'] = datapoint[0]
-            obj['num_class_label'] = labelclasses.index(datapoint[1])
+            num_str = datapoint[0]
+            num_int = [int(el) for el in num_str.split(',')]
+            
+            obj['box'] = num_int
+            obj['class'] = labelclasses.index(datapoint[1])
             obj['wID'] = datapoint[2]
             objects.append(obj)
 
