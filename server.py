@@ -100,7 +100,7 @@ def gen(username):
 def image_get(username):
     return Response(gen(username),mimetype='multipart/x-mixed-replace; boundary=frame')
 
-labelclasses = ["oatmeal", "mustard", "syrup", "mayonnaise", "salad dressing"] #preserve js ordering
+labelclasses = ["Oatmeal", "Mustard", "Syrup", "Mayonnaise", "Salad Dressing"] #preserve js ordering
 
 @custom_code.route('/state_feed')
 @crossdomain(origin='*')
@@ -117,7 +117,7 @@ def state_feed():
             obj = {}
             num_str = datapoint[0]
             num_int = [int(el) for el in num_str.split(',')]
-            
+
             obj['box'] = num_int
             obj['class'] = labelclasses.index(datapoint[1])
             obj['wID'] = datapoint[2]

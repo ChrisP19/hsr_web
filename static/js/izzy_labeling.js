@@ -27,7 +27,7 @@ curr_boxes = [];
 drawing = false;
 canDraw = true;
 
-labels = ["oatmeal", "mustard", "syrup", "mayonnaise", "salad dressing"];
+labels = ["Oatmeal", "Mustard", "Syrup", "Mayonnaise", "Salad Dressing"];
 var labelHTML = "";
 for (i = 0; i < labels.length; i += 1) {
 	labelHTML += "<button class='dropmenu-btn' id='drop" + i + "'>" + labels[i] + "</button>\n"
@@ -88,19 +88,19 @@ function addBbox(bounds, label) {
 
 	curr_boxes.push([[[x1, y1], [x2, y2]], c, label]);
 
-	var table = document.getElementById("boxinfo");
-	var row = table.insertRow(-1);
-	var cell = row.insertCell(0);
-	var deleteBut = row.insertCell(1);
-	deleteBut.innerHTML = "<button type='button'>Delete</button>";
-	deleteBut.onclick = function() {
-		var table = document.getElementById("boxinfo");
-		var ind = this.parentNode.rowIndex;
-		table.deleteRow(ind);
-		curr_boxes.splice(ind, 1);
-	}
-	cell.innerHTML = label + ": (" + x1 + "," + y1 + ") -> (" + x2 + "," + y2 + ")";
-	cell.style.color = c;
+	// var table = document.getElementById("boxinfo");
+	// var row = table.insertRow(-1);
+	// var cell = row.insertCell(0);
+	// var deleteBut = row.insertCell(1);
+	// deleteBut.innerHTML = "<button type='button'>Delete</button>";
+	// deleteBut.onclick = function() {
+	// 	var table = document.getElementById("boxinfo");
+	// 	var ind = this.parentNode.rowIndex;
+	// 	table.deleteRow(ind);
+	// 	curr_boxes.splice(ind, 1);
+	// }
+	// cell.innerHTML = label + ": (" + x1 + "," + y1 + ") -> (" + x2 + "," + y2 + ")";
+	// cell.style.color = c;
 }
 
 addEventListener("mousemove", function (e) {
@@ -109,8 +109,8 @@ addEventListener("mousemove", function (e) {
 
 function clearData() {
 	curr_boxes = [];
-	var table = document.getElementById("boxinfo");
-	table.innerHTML = "";
+	// var table = document.getElementById("boxinfo");
+	// table.innerHTML = "";
 	color_ind = 0;
 }
 
@@ -166,13 +166,15 @@ function updateData() {
 	}
 	clearData();
 
-	bgImage.src = "static/images/workerbot.jpg"
+	document.getElementById("gif").style.visibility = "visible"
+	// bgImage.src = "static/images/source.gif"
 	canDraw = false;
 
 	$.ajax('http://'+addr+':5000/state_feed', {
         type: "GET",
         data: feedback,
 		success: function( response ) {
+			document.getElementById("gif").style.visibility = "hidden"
 			bgImage.src = 'http://' + addr + ':5000/image/' + workerID
 			canDraw = true;
 		}

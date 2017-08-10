@@ -1,217 +1,27 @@
-[2017-08-10 11:16:13,654] ERROR in app: Exception on /ad [GET]
+2017-08-10 16:26:02,156 Exception on /source.gif [GET]
 Traceback (most recent call last):
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1982, in wsgi_app
+  File "/usr/local/lib/python2.7/site-packages/flask/app.py", line 1817, in wsgi_app
     response = self.full_dispatch_request()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1614, in full_dispatch_request
+  File "/usr/local/lib/python2.7/site-packages/flask/app.py", line 1477, in full_dispatch_request
     rv = self.handle_user_exception(e)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1517, in handle_user_exception
+  File "/usr/local/lib/python2.7/site-packages/flask/app.py", line 1381, in handle_user_exception
     reraise(exc_type, exc_value, tb)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1612, in full_dispatch_request
+  File "/usr/local/lib/python2.7/site-packages/flask/app.py", line 1475, in full_dispatch_request
     rv = self.dispatch_request()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1598, in dispatch_request
+  File "/usr/local/lib/python2.7/site-packages/flask/app.py", line 1461, in dispatch_request
     return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/psiturk/user_utils.py", line 20, in new_func
-    resp = make_response(func(*args, **kwargs))
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/psiturk/experiment.py", line 280, in advertisement
-    filter(Participant.workerid == worker_id).\
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2535, in count
-    return self.from_self(col).scalar()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2341, in scalar
-    ret = self.one()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2310, in one
-    ret = list(self)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2353, in __iter__
-    return self._execute_and_instances(context)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2368, in _execute_and_instances
-    result = conn.execute(querycontext.statement, self._params)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 662, in execute
-    params)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 761, in _execute_clauseelement
-    compiled_sql, distilled_params
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 874, in _execute_context
-    context)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1024, in _handle_dbapi_exception
-    exc_info
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/util/compat.py", line 196, in raise_from_cause
-    reraise(type(exception), exception, tb=exc_tb)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 867, in _execute_context
-    context)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/default.py", line 324, in do_execute
-    cursor.execute(statement, parameters)
-OperationalError: (OperationalError) no such column: turkdemo.mode u'SELECT count(*) AS count_1 \nFROM (SELECT turkdemo.uniqueid AS turkdemo_uniqueid, turkdemo.assignmentid AS turkdemo_assignmentid, turkdemo.workerid AS turkdemo_workerid, turkdemo.hitid AS turkdemo_hitid, turkdemo.ipaddress AS turkdemo_ipaddress, turkdemo.browser AS turkdemo_browser, turkdemo.platform AS turkdemo_platform, turkdemo.language AS turkdemo_language, turkdemo.cond AS turkdemo_cond, turkdemo.counterbalance AS turkdemo_counterbalance, turkdemo.codeversion AS turkdemo_codeversion, turkdemo.beginhit AS turkdemo_beginhit, turkdemo.beginexp AS turkdemo_beginexp, turkdemo.endhit AS turkdemo_endhit, turkdemo.bonus AS turkdemo_bonus, turkdemo.status AS turkdemo_status, turkdemo.mode AS turkdemo_mode, turkdemo.datastring AS turkdemo_datastring \nFROM turkdemo \nWHERE turkdemo.assignmentid != ? AND turkdemo.workerid = ?) AS anon_1' (u'debugEKYVNG', u'debugA45I8F')
-[2017-08-10 11:16:25,840] ERROR in app: Exception on /ad [GET]
-Traceback (most recent call last):
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1982, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1614, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1517, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1612, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1598, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/psiturk/user_utils.py", line 20, in new_func
-    resp = make_response(func(*args, **kwargs))
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/psiturk/experiment.py", line 280, in advertisement
-    filter(Participant.workerid == worker_id).\
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2535, in count
-    return self.from_self(col).scalar()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2341, in scalar
-    ret = self.one()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2310, in one
-    ret = list(self)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2353, in __iter__
-    return self._execute_and_instances(context)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2368, in _execute_and_instances
-    result = conn.execute(querycontext.statement, self._params)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 662, in execute
-    params)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 761, in _execute_clauseelement
-    compiled_sql, distilled_params
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 874, in _execute_context
-    context)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1024, in _handle_dbapi_exception
-    exc_info
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/util/compat.py", line 196, in raise_from_cause
-    reraise(type(exception), exception, tb=exc_tb)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 867, in _execute_context
-    context)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/default.py", line 324, in do_execute
-    cursor.execute(statement, parameters)
-OperationalError: (OperationalError) no such column: turkdemo.mode u'SELECT count(*) AS count_1 \nFROM (SELECT turkdemo.uniqueid AS turkdemo_uniqueid, turkdemo.assignmentid AS turkdemo_assignmentid, turkdemo.workerid AS turkdemo_workerid, turkdemo.hitid AS turkdemo_hitid, turkdemo.ipaddress AS turkdemo_ipaddress, turkdemo.browser AS turkdemo_browser, turkdemo.platform AS turkdemo_platform, turkdemo.language AS turkdemo_language, turkdemo.cond AS turkdemo_cond, turkdemo.counterbalance AS turkdemo_counterbalance, turkdemo.codeversion AS turkdemo_codeversion, turkdemo.beginhit AS turkdemo_beginhit, turkdemo.beginexp AS turkdemo_beginexp, turkdemo.endhit AS turkdemo_endhit, turkdemo.bonus AS turkdemo_bonus, turkdemo.status AS turkdemo_status, turkdemo.mode AS turkdemo_mode, turkdemo.datastring AS turkdemo_datastring \nFROM turkdemo \nWHERE turkdemo.assignmentid != ? AND turkdemo.workerid = ?) AS anon_1' (u'debugDE2SER', u'debugWOR433')
-[2017-08-10 11:18:40,119] ERROR in app: Exception on /ad [GET]
-Traceback (most recent call last):
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1982, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1614, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1517, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1612, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1598, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/psiturk/user_utils.py", line 20, in new_func
-    resp = make_response(func(*args, **kwargs))
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/psiturk/experiment.py", line 280, in advertisement
-    filter(Participant.workerid == worker_id).\
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 3089, in count
-    return self.from_self(col).scalar()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2843, in scalar
-    ret = self.one()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2814, in one
-    ret = self.one_or_none()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2784, in one_or_none
-    ret = list(self)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2855, in __iter__
-    return self._execute_and_instances(context)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2878, in _execute_and_instances
-    result = conn.execute(querycontext.statement, self._params)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 945, in execute
-    return meth(self, multiparams, params)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/sql/elements.py", line 263, in _execute_on_connection
-    return connection._execute_clauseelement(self, multiparams, params)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1053, in _execute_clauseelement
-    compiled_sql, distilled_params
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1189, in _execute_context
-    context)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1402, in _handle_dbapi_exception
-    exc_info
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/util/compat.py", line 203, in raise_from_cause
-    reraise(type(exception), exception, tb=exc_tb, cause=cause)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1182, in _execute_context
-    context)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/default.py", line 470, in do_execute
-    cursor.execute(statement, parameters)
-OperationalError: (sqlite3.OperationalError) no such column: turkdemo.mode [SQL: u'SELECT count(*) AS count_1 \nFROM (SELECT turkdemo.uniqueid AS turkdemo_uniqueid, turkdemo.assignmentid AS turkdemo_assignmentid, turkdemo.workerid AS turkdemo_workerid, turkdemo.hitid AS turkdemo_hitid, turkdemo.ipaddress AS turkdemo_ipaddress, turkdemo.browser AS turkdemo_browser, turkdemo.platform AS turkdemo_platform, turkdemo.language AS turkdemo_language, turkdemo.cond AS turkdemo_cond, turkdemo.counterbalance AS turkdemo_counterbalance, turkdemo.codeversion AS turkdemo_codeversion, turkdemo.beginhit AS turkdemo_beginhit, turkdemo.beginexp AS turkdemo_beginexp, turkdemo.endhit AS turkdemo_endhit, turkdemo.bonus AS turkdemo_bonus, turkdemo.status AS turkdemo_status, turkdemo.mode AS turkdemo_mode, turkdemo.datastring AS turkdemo_datastring \nFROM turkdemo \nWHERE turkdemo.assignmentid != ? AND turkdemo.workerid = ?) AS anon_1'] [parameters: (u'debug8CFU8J', u'debug3XX9B5')]
-[2017-08-10 11:18:45,570] ERROR in app: Exception on /ad [GET]
-Traceback (most recent call last):
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1982, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1614, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1517, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1612, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1598, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/psiturk/user_utils.py", line 20, in new_func
-    resp = make_response(func(*args, **kwargs))
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/psiturk/experiment.py", line 280, in advertisement
-    filter(Participant.workerid == worker_id).\
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 3089, in count
-    return self.from_self(col).scalar()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2843, in scalar
-    ret = self.one()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2814, in one
-    ret = self.one_or_none()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2784, in one_or_none
-    ret = list(self)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2855, in __iter__
-    return self._execute_and_instances(context)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2878, in _execute_and_instances
-    result = conn.execute(querycontext.statement, self._params)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 945, in execute
-    return meth(self, multiparams, params)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/sql/elements.py", line 263, in _execute_on_connection
-    return connection._execute_clauseelement(self, multiparams, params)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1053, in _execute_clauseelement
-    compiled_sql, distilled_params
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1189, in _execute_context
-    context)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1402, in _handle_dbapi_exception
-    exc_info
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/util/compat.py", line 203, in raise_from_cause
-    reraise(type(exception), exception, tb=exc_tb, cause=cause)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1182, in _execute_context
-    context)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/default.py", line 470, in do_execute
-    cursor.execute(statement, parameters)
-OperationalError: (sqlite3.OperationalError) no such column: turkdemo.mode [SQL: u'SELECT count(*) AS count_1 \nFROM (SELECT turkdemo.uniqueid AS turkdemo_uniqueid, turkdemo.assignmentid AS turkdemo_assignmentid, turkdemo.workerid AS turkdemo_workerid, turkdemo.hitid AS turkdemo_hitid, turkdemo.ipaddress AS turkdemo_ipaddress, turkdemo.browser AS turkdemo_browser, turkdemo.platform AS turkdemo_platform, turkdemo.language AS turkdemo_language, turkdemo.cond AS turkdemo_cond, turkdemo.counterbalance AS turkdemo_counterbalance, turkdemo.codeversion AS turkdemo_codeversion, turkdemo.beginhit AS turkdemo_beginhit, turkdemo.beginexp AS turkdemo_beginexp, turkdemo.endhit AS turkdemo_endhit, turkdemo.bonus AS turkdemo_bonus, turkdemo.status AS turkdemo_status, turkdemo.mode AS turkdemo_mode, turkdemo.datastring AS turkdemo_datastring \nFROM turkdemo \nWHERE turkdemo.assignmentid != ? AND turkdemo.workerid = ?) AS anon_1'] [parameters: (u'debug8CFU8J', u'debug3XX9B5')]
-[2017-08-10 11:24:58,521] ERROR in app: Exception on /ad [GET]
-Traceback (most recent call last):
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1982, in wsgi_app
-    response = self.full_dispatch_request()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1614, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1517, in handle_user_exception
-    reraise(exc_type, exc_value, tb)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1612, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/flask/app.py", line 1598, in dispatch_request
-    return self.view_functions[rule.endpoint](**req.view_args)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/psiturk/user_utils.py", line 20, in new_func
-    resp = make_response(func(*args, **kwargs))
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/psiturk/experiment.py", line 280, in advertisement
-    filter(Participant.workerid == worker_id).\
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 3089, in count
-    return self.from_self(col).scalar()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2843, in scalar
-    ret = self.one()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2814, in one
-    ret = self.one_or_none()
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2784, in one_or_none
-    ret = list(self)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2855, in __iter__
-    return self._execute_and_instances(context)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2878, in _execute_and_instances
-    result = conn.execute(querycontext.statement, self._params)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 945, in execute
-    return meth(self, multiparams, params)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/sql/elements.py", line 263, in _execute_on_connection
-    return connection._execute_clauseelement(self, multiparams, params)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1053, in _execute_clauseelement
-    compiled_sql, distilled_params
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1189, in _execute_context
-    context)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1402, in _handle_dbapi_exception
-    exc_info
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/util/compat.py", line 203, in raise_from_cause
-    reraise(type(exception), exception, tb=exc_tb, cause=cause)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1182, in _execute_context
-    context)
-  File "/home/autolab/anaconda2/lib/python2.7/site-packages/sqlalchemy/engine/default.py", line 470, in do_execute
-    cursor.execute(statement, parameters)
-OperationalError: (sqlite3.OperationalError) no such column: turkdemo.mode [SQL: u'SELECT count(*) AS count_1 \nFROM (SELECT turkdemo.uniqueid AS turkdemo_uniqueid, turkdemo.assignmentid AS turkdemo_assignmentid, turkdemo.workerid AS turkdemo_workerid, turkdemo.hitid AS turkdemo_hitid, turkdemo.ipaddress AS turkdemo_ipaddress, turkdemo.browser AS turkdemo_browser, turkdemo.platform AS turkdemo_platform, turkdemo.language AS turkdemo_language, turkdemo.cond AS turkdemo_cond, turkdemo.counterbalance AS turkdemo_counterbalance, turkdemo.codeversion AS turkdemo_codeversion, turkdemo.beginhit AS turkdemo_beginhit, turkdemo.beginexp AS turkdemo_beginexp, turkdemo.endhit AS turkdemo_endhit, turkdemo.bonus AS turkdemo_bonus, turkdemo.status AS turkdemo_status, turkdemo.mode AS turkdemo_mode, turkdemo.datastring AS turkdemo_datastring \nFROM turkdemo \nWHERE turkdemo.assignmentid != ? AND turkdemo.workerid = ?) AS anon_1'] [parameters: (u'debug536TJ0', u'debugD7EBG0')]
+  File "/usr/local/lib/python2.7/site-packages/psiturk/experiment.py", line 713, in regularpage
+    return render_template(pagename)
+  File "/usr/local/lib/python2.7/site-packages/flask/templating.py", line 127, in render_template
+    return _render(ctx.app.jinja_env.get_or_select_template(template_name_or_list),
+  File "/usr/local/lib/python2.7/site-packages/jinja2/environment.py", line 869, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/usr/local/lib/python2.7/site-packages/jinja2/environment.py", line 830, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "/usr/local/lib/python2.7/site-packages/jinja2/environment.py", line 804, in _load_template
+    template = self.loader.load(self, name, globals)
+  File "/usr/local/lib/python2.7/site-packages/jinja2/loaders.py", line 113, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/usr/local/lib/python2.7/site-packages/flask/templating.py", line 64, in get_source
+    raise TemplateNotFound(template)
+TemplateNotFound: source.gif
