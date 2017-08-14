@@ -193,6 +193,16 @@ function drawBox(poses)
 	ctx.lineTo(p1[0], p1[1]);
 	ctx.lineWidth = 3;
 	ctx.stroke();
+
+	xh = (p1[0] + p2[0])/2;
+	yh = (p1[1] + p2[1])/2;
+	ctx.beginPath();
+	ctx.moveTo(xh, p1[1]);
+	ctx.lineTo(xh, p2[1]);
+	ctx.moveTo(p1[0], yh);
+	ctx.lineTo(p2[0], yh);
+	ctx.lineWidth = 2;
+	ctx.stroke();
 }
 
 // Draw everything
