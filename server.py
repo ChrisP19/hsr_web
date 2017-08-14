@@ -90,6 +90,10 @@ sharer = Pyro4.Proxy("PYRONAME:shared.server")
 def gen(username):
     global sharer
     name = sharer.get_img()
+
+    if ( name == None):
+        name = "/home/autolab/Workspaces/michael_working/IL_ROS_HSR/shared_data/img.png"
+    print "IMAGE NAME ", name
     frame = open(name, "rb").read()
 
     return (b'--frame\r\n'
@@ -105,13 +109,12 @@ labelclasses = ["Oatmeal", "Mustard", "Syrup", "Mayonnaise", "Salad Dressing"] #
 @custom_code.route('/state_feed')
 @crossdomain(origin='*')
 def state_feed():
-    global frame
     global sharer
 
     if len(request.args) != 0:
         data = dict(request.args)['undefined']
 
-        objects = []
+        objects = [] 
         #group by 3s
         for datapoint in zip(*[data[i::3] for i in range(3)]):
             obj = {}

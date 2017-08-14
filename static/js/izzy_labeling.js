@@ -16,8 +16,8 @@ var bboxcanvas = document.getElementById("bboxcanvas");
 set_dim(bboxcanvas);
 var ctx = bboxcanvas.getContext("2d");
 
-// addr = '128.32.37.232'
-addr = '0.0.0.0'
+addr = '128.32.192.73'
+//addr = '0.0.0.0'
 
 workerID = psiTurk.taskdata.get('workerId')
 console.log(psiTurk)
@@ -120,9 +120,7 @@ document.getElementById('clear').onclick = function() {
 
 document.getElementById('submit').onclick = function() {
 	updateData();
-	updateImg(
 
-	);
 };
 function update_label(label_val) {
 	curr_label = label_val;
@@ -165,6 +163,8 @@ function updateData() {
 		})
 	}
 	clearData();
+	bgImage.src = 'http://' + addr + ':5000/image/' + workerID
+
 
 	document.getElementById("gif").style.visibility = "visible"
 	// bgImage.src = "static/images/source.gif"
@@ -175,7 +175,7 @@ function updateData() {
         data: feedback,
 		success: function( response ) {
 			document.getElementById("gif").style.visibility = "hidden"
-			bgImage.src = 'http://' + addr + ':5000/image/' + workerID
+			
 			canDraw = true;
 		}
     });
@@ -206,6 +206,8 @@ var render = function () {
 		ctx.strokeStyle = colors[color_ind];
 		drawBox([old_pose, curr_pose]);
 	}
+
+
 };
 
 var main = function () {
