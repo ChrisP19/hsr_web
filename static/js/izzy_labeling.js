@@ -163,11 +163,8 @@ function updateData() {
 		})
 	}
 	clearData();
-	bgImage.src = 'http://' + addr + ':5000/image/' + workerID
-
 
 	document.getElementById("gif").style.visibility = "visible"
-	// bgImage.src = "static/images/source.gif"
 	canDraw = false;
 
 	$.ajax('http://'+addr+':5000/state_feed', {
@@ -175,7 +172,7 @@ function updateData() {
         data: feedback,
 		success: function( response ) {
 			document.getElementById("gif").style.visibility = "hidden"
-			
+			bgImage.src = 'http://' + addr + ':5000/image?'+new Date().getTime();
 			canDraw = true;
 		}
     });
