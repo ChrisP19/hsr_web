@@ -163,10 +163,10 @@ function updateData() {
 		})
 	}
 	clearData();
-	bgImage.src = 'http://' + addr + ':5000/image/' + workerID
+	// bgImage.src = 'http://' + addr + ':5000/image/' + workerID
 
 
-	document.getElementById("gif").style.visibility = "visible"
+	// document.getElementById("gif").style.visibility = "visible"
 	// bgImage.src = "static/images/source.gif"
 	canDraw = false;
 
@@ -174,8 +174,10 @@ function updateData() {
         type: "GET",
         data: feedback,
 		success: function( response ) {
-			document.getElementById("gif").style.visibility = "hidden"
-			
+			document.getElementById("gif").style.visibility = "hidden";
+			console.log("here");
+			console.log('http://' + addr + ':5000/image');
+			//bgImage.src = 'http://' + addr + ':5000/image';
 			canDraw = true;
 		}
     });
@@ -192,16 +194,6 @@ function drawBox(poses)
 	ctx.lineTo(p2[0], p1[1]);
 	ctx.lineTo(p1[0], p1[1]);
 	ctx.lineWidth = 3;
-	ctx.stroke();
-
-	xh = (p1[0] + p2[0])/2;
-	yh = (p1[1] + p2[1])/2;
-	ctx.beginPath();
-	ctx.moveTo(xh, p1[1]);
-	ctx.lineTo(xh, p2[1]);
-	ctx.moveTo(p1[0], yh);
-	ctx.lineTo(p2[0], yh);
-	ctx.lineWidth = 2;
 	ctx.stroke();
 }
 
@@ -220,9 +212,15 @@ var render = function () {
 
 };
 
+iters = 0;
 var main = function () {
 	requestAnimationFrame(main);
 	render();
+	iters += 1;
+	iters = iters % 150;
+	if (iters == 0) {
+		bgImage.src = 'http://' + addr + ':5000/image?'+new Date().getTime();
+	}
 };
 
 // Cross-browser support for requestAnimationFrame

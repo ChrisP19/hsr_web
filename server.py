@@ -87,7 +87,7 @@ def crossdomain(origin=None, methods=None, headers=None,
 
 sharer = Pyro4.Proxy("PYRONAME:shared.server")
 
-def gen(username):
+def gen():
     global sharer
     name = sharer.get_img()
 
@@ -99,10 +99,11 @@ def gen(username):
     return (b'--frame\r\n'
            b'Content-Type: image/png\r\n\r\n' + frame + b'\r\n')
 
-@custom_code.route('/image/<username>')
+@custom_code.route('/image')
 @crossdomain(origin='*')
-def image_get(username):
-    return Response(gen(username),mimetype='multipart/x-mixed-replace; boundary=frame')
+def image_get():
+    print("requesting image")
+    return Response(gen(),mimetype='multipart/x-mixed-replace; boundary=frame')
 
 labelclasses = ["Oatmeal", "Mustard", "Syrup", "Mayonnaise", "Salad Dressing"] #preserve js ordering
 
@@ -126,17 +127,17 @@ def state_feed():
             obj['wID'] = datapoint[2]
             objects.append(obj)
 
-            label_data = {}
-            label_data['num_labels'] = len(objects)
-            label_data['objects'] = objects
+        label_data = {}
+        label_data['num_labels'] = len(objects)
+        label_data['objects'] = objects
 
-            sharer.set_label_data(label_data)
-            sharer.set_labeled(True)
+        sharer.set_label_data(label_data)
+        sharer.set_labeled(True)
 
-    print("server waiting")
+    print("server now waiting")
     while not sharer.is_img_ready():
         pass
-
+    print("server done")
     sharer.set_img_ready(False)
 
     return jsonify(result={"status": 200})
