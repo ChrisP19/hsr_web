@@ -27,7 +27,7 @@ curr_boxes = [];
 drawing = false;
 canDraw = true;
 
-labels = ["Oatmeal", "Mustard", "Syrup", "Mayonnaise", "Salad Dressing"];
+labels = ["YES", "NO"];
 var labelHTML = "";
 for (i = 0; i < labels.length; i += 1) {
 	labelHTML += "<button class='dropmenu-btn' id='drop" + i + "'>" + labels[i] + "</button>\n"
