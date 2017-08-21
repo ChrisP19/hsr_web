@@ -8,7 +8,10 @@ var imgcanvas = document.getElementById("imgcanvas");
 set_dim(imgcanvas);
 var imgctx = imgcanvas.getContext("2d");
 var bgImage = new Image();
+latencyStart = 0;
+latencyEnd = 0;
 bgImage.onload = function () {
+	latencyEnd = performance.now()
 	imgctx.drawImage(bgImage, 0, 0, 420, 420);
 }
 
@@ -26,6 +29,8 @@ console.log(psiTurk)
 curr_boxes = [];
 drawing = false;
 canDraw = true;
+tStart = 0;
+tEnd = 0;
 
 labels = ["Oatmeal", "Mustard", "Syrup", "Mayonnaise", "Salad Dressing"];
 var labelHTML = "";
@@ -120,9 +125,6 @@ document.getElementById('clear').onclick = function() {
 
 document.getElementById('submit').onclick = function() {
 	updateData();
-	updateImg(
-
-	);
 };
 function update_label(label_val) {
 	curr_label = label_val;
@@ -145,6 +147,9 @@ var mouseToPos = function(x, y){
 }
 
 function updateData() {
+
+	tEnd = performance.now()
+
 	feedback = []
 
 	for (i = 0; i < curr_boxes.length; i += 1) {
@@ -164,6 +169,14 @@ function updateData() {
 			value: workerID
 		})
 	}
+	feedback.push({
+		key: "milliseconds",
+		value: tEnd - tStart
+	})
+	feedback.push({
+		key: "latency",
+		value: latencyEnd - latencyStart
+	})
 	clearData();
 
 	document.getElementById("gif").style.visibility = "visible"
@@ -176,7 +189,9 @@ function updateData() {
 		success: function( response ) {
 			document.getElementById("gif").style.visibility = "hidden"
 			bgImage.src = 'http://' + addr + ':5000/image/' + workerID
+			latencyStart = performance.now()
 			canDraw = true;
+			tStart = performance.now()
 		}
     });
 };

@@ -57,6 +57,10 @@ class server_interface():
     def set_labeled(self, val):
         self.labeled = val
 
+    @Pyro4.expose
+    def display(self):
+        return str([self.curr_img, self.img_ready, self.label_data, self.labeled])
+
 daemon = Pyro4.Daemon()
 ns = Pyro4.locateNS()
 uri = daemon.register(server_interface)
