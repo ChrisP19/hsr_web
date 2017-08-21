@@ -87,25 +87,28 @@ def crossdomain(origin=None, methods=None, headers=None,
 
 sharer = Pyro4.Proxy("PYRONAME:shared.server")
 
-def gen(username):
+def gen():
     global sharer
     name = sharer.get_img()
+
+    if ( name == None):
+        name = "/home/autolab/Workspaces/michael_working/IL_ROS_HSR/shared_data/img.png"
+    print "IMAGE NAME ", name
     frame = open(name, "rb").read()
 
     return (b'--frame\r\n'
            b'Content-Type: image/png\r\n\r\n' + frame + b'\r\n')
 
-@custom_code.route('/image/<username>')
+@custom_code.route('/image')
 @crossdomain(origin='*')
-def image_get(username):
-    return Response(gen(username),mimetype='multipart/x-mixed-replace; boundary=frame')
+def image_get():
+    return Response(gen(),mimetype='multipart/x-mixed-replace; boundary=frame')
 
-labelclasses = ["Oatmeal", "Mustard", "Syrup", "Mayonnaise", "Salad Dressing"] #preserve js ordering
+labelclasses = ["YES", "NO"] #preserve js ordering
 
 @custom_code.route('/state_feed')
 @crossdomain(origin='*')
 def state_feed():
-    global frame
     global sharer
 
     if len(request.args) != 0:

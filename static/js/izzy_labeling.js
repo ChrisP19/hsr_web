@@ -19,8 +19,8 @@ var bboxcanvas = document.getElementById("bboxcanvas");
 set_dim(bboxcanvas);
 var ctx = bboxcanvas.getContext("2d");
 
-// addr = '128.32.37.232'
-addr = '0.0.0.0'
+addr = '128.32.192.73'
+//addr = '0.0.0.0'
 
 workerID = psiTurk.taskdata.get('workerId')
 console.log(psiTurk)
@@ -32,7 +32,7 @@ canDraw = true;
 tStart = 0;
 tEnd = 0;
 
-labels = ["Oatmeal", "Mustard", "Syrup", "Mayonnaise", "Salad Dressing"];
+labels = ["YES", "NO"];
 var labelHTML = "";
 for (i = 0; i < labels.length; i += 1) {
 	labelHTML += "<button class='dropmenu-btn' id='drop" + i + "'>" + labels[i] + "</button>\n"
@@ -126,6 +126,7 @@ document.getElementById('clear').onclick = function() {
 document.getElementById('submit').onclick = function() {
 	updateData();
 };
+
 function update_label(label_val) {
 	curr_label = label_val;
 	document.getElementById("clabel").innerHTML = curr_label;
@@ -180,7 +181,6 @@ function updateData() {
 	clearData();
 
 	document.getElementById("gif").style.visibility = "visible"
-	// bgImage.src = "static/images/source.gif"
 	canDraw = false;
 
 	$.ajax('http://'+addr+':5000/state_feed', {
@@ -231,6 +231,8 @@ var render = function () {
 		ctx.strokeStyle = colors[color_ind];
 		drawBox([old_pose, curr_pose]);
 	}
+
+
 };
 
 var main = function () {
