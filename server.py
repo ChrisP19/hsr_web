@@ -110,7 +110,8 @@ def state_feed():
 
     if len(request.args) != 0:
         data = dict(request.args)['undefined']
-
+        latency = data.pop()
+        milliseconds = data.pop()
         objects = []
         #group by 3s
         for datapoint in zip(*[data[i::3] for i in range(3)]):
@@ -123,12 +124,15 @@ def state_feed():
             obj['wID'] = datapoint[2]
             objects.append(obj)
 
-            label_data = {}
-            label_data['num_labels'] = len(objects)
-            label_data['objects'] = objects
+        label_data = {}
+        label_data['num_labels'] = len(objects)
+        label_data['objects'] = objects
+        label_data['time'] = milliseconds
+        label_data['latency'] = latency
+        sharer.set_label_data(label_data)
+        sharer.set_labeled(True)
 
-            sharer.set_label_data(label_data)
-            sharer.set_labeled(True)
+    print("obj properties: " + sharer.display())
 
     print("server waiting")
     while not sharer.is_img_ready():
