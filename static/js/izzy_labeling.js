@@ -19,8 +19,8 @@ var bboxcanvas = document.getElementById("bboxcanvas");
 set_dim(bboxcanvas);
 var ctx = bboxcanvas.getContext("2d");
 
-addr = '128.32.192.73'
-//addr = '0.0.0.0'
+// addr = '128.32.192.73'
+addr = '0.0.0.0'
 
 workerID = psiTurk.taskdata.get('workerId')
 console.log(psiTurk)
@@ -188,7 +188,7 @@ function updateData() {
         data: feedback,
 		success: function( response ) {
 			document.getElementById("gif").style.visibility = "hidden"
-			bgImage.src = 'http://' + addr + ':5000/image/' + workerID
+			bgImage.src = 'http://' + addr + ':5000/image'
 			latencyStart = performance.now()
 			canDraw = true;
 			tStart = performance.now()
