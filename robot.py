@@ -26,6 +26,7 @@ for ind in range(0, 6):
     frame = "data/images/frame_" + str(ind) + ".png"
 
     label_data = label_image(frame)
+    print(label_data)
     print(float(label_data['time'])/1000.0)
     print(float(label_data['latency'])/1000.0)
     # time.sleep(5)

@@ -19,7 +19,7 @@ var bboxcanvas = document.getElementById("bboxcanvas");
 set_dim(bboxcanvas);
 var ctx = bboxcanvas.getContext("2d");
 
-// addr = '128.32.192.73'
+// addr = '10.0.0.95'
 addr = '0.0.0.0'
 
 workerID = psiTurk.taskdata.get('workerId')
@@ -32,7 +32,7 @@ canDraw = true;
 tStart = 0;
 tEnd = 0;
 
-labels = ["YES", "NO"];
+labels = ["Wrench", "Hammer", "Screwdriver", "Tape Measure", "Glue", "Tape"];
 var labelHTML = "";
 for (i = 0; i < labels.length; i += 1) {
 	labelHTML += "<button class='dropmenu-btn' id='drop" + i + "'>" + labels[i] + "</button>\n"

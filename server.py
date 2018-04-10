@@ -91,7 +91,7 @@ def gen():
     global sharer
     name = sharer.get_img()
 
-    if ( name == None):
+    if (name == None):
         name = "/home/autolab/Workspaces/michael_working/IL_ROS_HSR/shared_data/img.png"
     print "IMAGE NAME ", name
     frame = open(name, "rb").read()
@@ -104,7 +104,7 @@ def gen():
 def image_get():
     return Response(gen(),mimetype='multipart/x-mixed-replace; boundary=frame')
 
-labelclasses = ["YES", "NO"] #preserve js ordering
+labelclasses = ["Wrench", "Hammer", "Screwdriver", "Tape Measure", "Glue", "Tape"] #preserve js ordering
 
 @custom_code.route('/state_feed')
 @crossdomain(origin='*')
