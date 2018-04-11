@@ -52,7 +52,7 @@ class Web_Labeler:
 			x_max = non_scaled[2]*(w_/CANVAS_DIM)
 			y_max = non_scaled[3]*(h_/CANVAS_DIM)
 
-			label['box'] = [x_min, y_min, x_max,y_max]
+			label['box'] = [int(a) for a in [x_min, y_min, x_max,y_max]]
 
 		return labels
 

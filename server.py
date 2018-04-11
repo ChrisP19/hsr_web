@@ -99,9 +99,9 @@ def gen():
     return (b'--frame\r\n'
            b'Content-Type: image/png\r\n\r\n' + frame + b'\r\n')
 
-@custom_code.route('/image')
+@custom_code.route('/image/<string:id>')
 @crossdomain(origin='*')
-def image_get():
+def image_get(id):
     return Response(gen(),mimetype='multipart/x-mixed-replace; boundary=frame')
 
 labelclasses = ["Wrench", "Hammer", "Screwdriver", "Tape Measure", "Glue", "Tape"] #preserve js ordering
@@ -115,25 +115,28 @@ def state_feed():
         data = dict(request.args)['undefined']
         latency = data.pop()
         milliseconds = data.pop()
-        objects = []
-        #group by 3s
-        for datapoint in zip(*[data[i::3] for i in range(3)]):
-            obj = {}
-            num_str = datapoint[0]
-            num_int = [int(el) for el in num_str.split(',')]
 
-            obj['box'] = num_int
-            obj['class'] = labelclasses.index(datapoint[1])
-            obj['wID'] = datapoint[2]
-            objects.append(obj)
+        if len(data) != 0:
+            objects = []
+            #group by 3s
+            for datapoint in zip(*[data[i::3] for i in range(3)]):
+                obj = {}
+                num_str = datapoint[0]
+                num_int = [int(el) for el in num_str.split(',')]
 
-        label_data = {}
-        label_data['num_labels'] = len(objects)
-        label_data['objects'] = objects
-        label_data['time'] = milliseconds
-        label_data['latency'] = latency
-        sharer.set_label_data(label_data)
-        sharer.set_labeled(True)
+                obj['box'] = num_int
+                obj['class'] = labelclasses.index(datapoint[1])
+                obj['wID'] = datapoint[2]
+                objects.append(obj)
+
+            label_data = {}
+            label_data['num_labels'] = len(objects)
+            label_data['objects'] = objects
+            label_data['time'] = milliseconds
+            label_data['latency'] = latency
+
+            sharer.set_label_data(label_data)
+            sharer.set_labeled(True)
 
     print("obj properties: " + sharer.display())
 

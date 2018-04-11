@@ -147,6 +147,11 @@ var mouseToPos = function(x, y){
 	return (x < rect.left || x > rect.right || y > rect.bottom || y < rect.top) ? false : [x - rect.left, y - rect.top];
 }
 
+function getRandomInt() {
+	max = 65536
+	return Math.floor(Math.random() * Math.floor(max));
+}
+
 function updateData() {
 
 	tEnd = performance.now()
@@ -188,7 +193,7 @@ function updateData() {
         data: feedback,
 		success: function( response ) {
 			document.getElementById("gif").style.visibility = "hidden"
-			bgImage.src = 'http://' + addr + ':5000/image'
+			bgImage.src = 'http://' + addr + ':5000/image/' + getRandomInt()
 			latencyStart = performance.now()
 			canDraw = true;
 			tStart = performance.now()
