@@ -104,7 +104,8 @@ def gen():
 def image_get(id):
     return Response(gen(),mimetype='multipart/x-mixed-replace; boundary=frame')
 
-labelclasses = ["Wrench", "Hammer", "Screwdriver", "Tape Measure", "Glue", "Tape"] #preserve js ordering
+# labelclasses = ["Wrench", "Hammer", "Screwdriver", "Tape Measure", "Glue", "Tape"] #preserve js ordering
+labelclasses = ["Screwdriver", "Foam", "Glue", "Tape"]
 
 @custom_code.route('/state_feed')
 @crossdomain(origin='*')

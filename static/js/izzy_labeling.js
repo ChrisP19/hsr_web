@@ -32,7 +32,9 @@ canDraw = true;
 tStart = 0;
 tEnd = 0;
 
-labels = ["Wrench", "Hammer", "Screwdriver", "Tape Measure", "Glue", "Tape"];
+// labels = ["Wrench", "Hammer", "Screwdriver", "Tape Measure", "Glue", "Tape"];
+labels = ["Screwdriver", "Foam", "Glue", "Tape"];
+
 var labelHTML = "";
 for (i = 0; i < labels.length; i += 1) {
 	labelHTML += "<button class='dropmenu-btn' id='drop" + i + "'>" + labels[i] + "</button>\n"
