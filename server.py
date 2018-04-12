@@ -105,7 +105,8 @@ def image_get(id):
     return Response(gen(),mimetype='multipart/x-mixed-replace; boundary=frame')
 
 # labelclasses = ["Wrench", "Hammer", "Screwdriver", "Tape Measure", "Glue", "Tape"] #preserve js ordering
-labelclasses = ["Screwdriver", "Foam", "Glue", "Tape"]
+labelclasses = ["Screwdriver", "Scrap", "Tube", "Tape"]
+motions = ["Pickup", "Declutter"]
 
 @custom_code.route('/state_feed')
 @crossdomain(origin='*')
@@ -117,17 +118,23 @@ def state_feed():
         latency = data.pop()
         milliseconds = data.pop()
 
+        print("DATA BELOW")
+        print data
+
         if len(data) != 0:
             objects = []
             #group by 3s
-            for datapoint in zip(*[data[i::3] for i in range(3)]):
+            for datapoint in zip(*[data[i::4] for i in range(4)]):
                 obj = {}
                 num_str = datapoint[0]
                 num_int = [int(el) for el in num_str.split(',')]
 
+                print datapoint
+
                 obj['box'] = num_int
                 obj['class'] = labelclasses.index(datapoint[1])
                 obj['wID'] = datapoint[2]
+                obj['motion'] = motions.index(datapoint[3])
                 objects.append(obj)
 
             label_data = {}

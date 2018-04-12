@@ -33,14 +33,23 @@ tStart = 0;
 tEnd = 0;
 
 // labels = ["Wrench", "Hammer", "Screwdriver", "Tape Measure", "Glue", "Tape"];
-labels = ["Screwdriver", "Foam", "Glue", "Tape"];
+labels = ["Screwdriver", "Scrap", "Tube", "Tape"];
 
 var labelHTML = "";
 for (i = 0; i < labels.length; i += 1) {
-	labelHTML += "<button class='dropmenu-btn' id='drop" + i + "'>" + labels[i] + "</button>\n"
+	labelHTML += "<button class='dropmenu-btn' id='labeldrop" + i + "'>" + labels[i] + "</button>\n"
 }
 document.getElementById("labelmenu").innerHTML = labelHTML;
 update_label(labels[0]);
+
+motions = ["Pickup", "Declutter"]
+var motionHTML = "";
+for (i = 0; i < motions.length; i += 1) {
+	motionHTML += "<button class='dropmenu-btn' id='motiondrop" + i + "'>" + motions[i] + "</button>\n"
+}
+document.getElementById("motionmenu").innerHTML = motionHTML;
+update_motion(motions[0]);
+
 hotkeys = ["q", "w", "e", "r", "t"]
 colors = ['#FF0000', '#0000FF', '#00FFFF', '#00FF00', '#000000'];
 color_ind = 0;
@@ -72,7 +81,7 @@ addEventListener("mousedown", function (e) {
 				y1 = Math.min(old_pose[1], curr_pose[1]);
 				y2 = Math.max(old_pose[1], curr_pose[1]);
 
-				addBbox([x1, y1, x2, y2], curr_label);
+				addBbox([x1, y1, x2, y2], curr_label, curr_motion);
 				drawing = false;
 			}
 			else {
@@ -84,7 +93,7 @@ addEventListener("mousedown", function (e) {
 	}
 }, false);
 
-function addBbox(bounds, label) {
+function addBbox(bounds, label, motion) {
 	c = colors[color_ind];
 	color_ind += 1;
 	color_ind = color_ind % colors.length;
@@ -93,7 +102,7 @@ function addBbox(bounds, label) {
 	x2 = bounds[2]
 	y2 = bounds[3]
 
-	curr_boxes.push([[[x1, y1], [x2, y2]], c, label]);
+	curr_boxes.push([[[x1, y1], [x2, y2]], c, label, motion]);
 
 	// var table = document.getElementById("boxinfo");
 	// var row = table.insertRow(-1);
@@ -134,13 +143,27 @@ function update_label(label_val) {
 	document.getElementById("clabel").innerHTML = curr_label;
 }
 
-function fixClosure(val) {
+function update_motion(motion_val) {
+	curr_motion = motion_val;
+	document.getElementById("mlabel").innerHTML = curr_motion;
+}
+
+function fixClosureLabel(val) {
 	return function() {
 		update_label(val);
 	}
 }
 for (j=0; j<labels.length; j++) {
-	document.getElementById('drop' + j).onclick = fixClosure(labels[j]);
+	document.getElementById('labeldrop' + j).onclick = fixClosureLabel(labels[j]);
+}
+
+function fixClosureMotion(val) {
+	return function() {
+		update_motion(val);
+	}
+}
+for (j=0; j<motions.length; j++) {
+	document.getElementById('motiondrop' + j).onclick = fixClosureMotion(motions[j]);
 }
 
 
@@ -163,7 +186,8 @@ function updateData() {
 	for (i = 0; i < curr_boxes.length; i += 1) {
 		datapoint = curr_boxes[i]
 		coords = datapoint[0]
-		label = datapoint[2]
+		label = curr_label
+		motion = curr_motion
 		feedback.push({
 			key: "coords",
 			value: coords
@@ -175,6 +199,10 @@ function updateData() {
 		feedback.push({
 			key: "wID",
 			value: workerID
+		})
+		feedback.push({
+			key: "motion",
+			value: motion
 		})
 	}
 	feedback.push({
