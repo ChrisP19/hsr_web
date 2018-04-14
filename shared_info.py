@@ -24,6 +24,7 @@ class server_interface():
         self.img_ready = False
         self.label_data = None
         self.labeled = False
+        self.confidences = None
 
     @Pyro4.expose
     def is_img_ready(self):
@@ -60,6 +61,14 @@ class server_interface():
     @Pyro4.expose
     def display(self):
         return str([self.curr_img, self.img_ready, self.label_data, self.labeled])
+
+    @Pyro4.expose
+    def set_confidences(self, confidences):
+        self.confidences = confidences
+
+    @Pyro4.expose
+    def get_confidences(self):
+        return self.confidences
 
 daemon = Pyro4.Daemon()
 ns = Pyro4.locateNS()

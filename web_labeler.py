@@ -4,6 +4,7 @@ import time
 import cPickle as pickle
 import IPython
 import cv2
+import numpy as np
 
 sharer = Pyro4.Proxy("PYRONAME:shared.server")
 
@@ -56,12 +57,47 @@ class Web_Labeler:
 
 		return labels
 
+	def send_confidences(self, confidences_path):
+		global sharer
+
+		sharer.set_confidences(confidences_path)
+
+	def label_robots(self, robot_id, num_robots, img_path):
+
+		robots = np.arange(num_robots)
+		np.random.shuffle(robots)
+
+		for robot in robots:
+
+			print "Desired Robot: " + str(robot_id)
+			print "Queued Robot: " + str(robot)
+
+			if robot == robot_id:
+				frame = "data/images/frame_" + str(robot) + ".png"
+			else:
+				frame = img_path
+			label_data = self.label_image(frame)
+			print(label_data)
+			print(float(label_data['time'])/1000.0)
+			print(float(label_data['latency'])/1000.0)
+			time.sleep(5)
+			pickle.dump(label_data, open("data/labels/" + str(robot) + ".p", 'wb'))
+			if robot == robot_id:
+				print "ROBOT LABELED"
+				return label_data
+				break;
+
 '''
 Example script below
 '''
 # labeler = Web_Labeler()
-# for i in range(6):
+# img_path = "data/images/frame_0.png"
+# labeler.label_robots(1, 5, img_path)
+
+# for i in range(2):
 # 	img_path = "data/images/frame_" + str(i) + ".png"
+# 	conf_path = "data/confidences/frame_" + str(i) + ".png"
+# 	labeler.send_confidences(conf_path)
 # 	label_data = labeler.label_image(img_path)
 # 	print(label_data)
 # 	print(float(label_data['time'])/1000.0)

@@ -19,6 +19,8 @@ var bboxcanvas = document.getElementById("bboxcanvas");
 set_dim(bboxcanvas);
 var ctx = bboxcanvas.getContext("2d");
 
+// var confidences = new Image();
+
 // addr = '10.0.0.95'
 addr = '0.0.0.0'
 
@@ -224,12 +226,20 @@ function updateData() {
 		success: function( response ) {
 			document.getElementById("gif").style.visibility = "hidden"
 			bgImage.src = 'http://' + addr + ':5000/image/' + getRandomInt()
+			// confPath = 'http://' + addr + ':5000/confidences/' + getRandomInt()
+			// console.log(confidences)
 			latencyStart = performance.now()
 			canDraw = true;
 			tStart = performance.now()
+			// update_confidences(confPath)
 		}
     });
+
 };
+
+function update_confidences(confPath) {
+	document.getElementById("confidences").innerHTML = "<img src=" + confPath + ">"
+}
 
 function drawBox(poses)
 {
