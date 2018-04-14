@@ -15,7 +15,7 @@ CANVAS_DIM = 420.0
 
 class Web_Labeler:
 
-	def __init__(self, robot_id, num_robots):
+	def __init__(self, num_robots, robot_id = 0):
 		self.count = 0
 		self.robot_id = robot_id
 		self.num_robots = num_robots
@@ -74,17 +74,13 @@ class Web_Labeler:
 
 			print "Desired Robot: " + str(self.robot_id)
 			print "Queued Robot: " + str(robot)
-
-			if robot == self.robot_id:
-				frame = "data/images/frame_" + str(robot) + ".png"
-			else:
-				frame = img_path
+			frame = img_path
 			label_data = self.label(frame)
 			print("Label Data: ",label_data)
 			print("Time:" , float(label_data['time'])/1000.0)
 			print("Latency: ", float(label_data['latency'])/1000.0)
 			time.sleep(5)
-			pickle.dump(label_data, open("data/labels/" + str(robot) + ".p", 'wb'))
+			# pickle.dump(label_data, open("data/labels/" + str(robot) + ".p", 'wb'))
 			if robot == self.robot_id:
 				print "ROBOT LABELED"
 				return label_data
@@ -93,9 +89,9 @@ class Web_Labeler:
 '''
 Example script below
 '''
-labeler = Web_Labeler(1, 5)
-img_path = "data/images/frame_0.png"
-labeler.label_image(img_path)
+# labeler = Web_Labeler(1, 5)
+# img_path = "data/images/frame_0.png"
+# labeler.label_image(img_path)
 
 # for i in range(2):
 # 	img_path = "data/images/frame_" + str(i) + ".png"
