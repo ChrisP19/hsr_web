@@ -87,12 +87,12 @@ def crossdomain(origin=None, methods=None, headers=None,
 
 sharer = Pyro4.Proxy("PYRONAME:shared.server")
 
-def gen():
+def gen_image():
     global sharer
     name = sharer.get_img()
 
     if (name == None):
-        name = "/home/autolab/Workspaces/michael_working/IL_ROS_HSR/shared_data/img.png"
+        name = "/home/hsr_web/data/images/frame_0.png"
     print "IMAGE NAME ", name
     frame = open(name, "rb").read()
 
@@ -102,7 +102,24 @@ def gen():
 @custom_code.route('/image/<string:id>')
 @crossdomain(origin='*')
 def image_get(id):
-    return Response(gen(),mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(gen_image(),mimetype='multipart/x-mixed-replace; boundary=frame')
+
+# def gen_confidences():
+#     global sharer
+#     name = sharer.get_confidences()
+#
+#     if (name == None):
+#         name = "/home/autolab/Workspaces/michael_working/IL_ROS_HSR/shared_data/img.png"
+#     print "IMAGE NAME ", name
+#     frame = open(name, "rb").read()
+#
+#     return (b'--frame\r\n'
+#            b'Content-Type: image/png\r\n\r\n' + frame + b'\r\n')
+#
+# @custom_code.route('/confidences/<string:id>')
+# @crossdomain(origin='*')
+# def conf_get(id):
+#     return Response(gen_confidences(),mimetype='multipart/x-mixed-replace; boundary=frame')
 
 # labelclasses = ["Wrench", "Hammer", "Screwdriver", "Tape Measure", "Glue", "Tape"] #preserve js ordering
 labelclasses = ["Screwdriver", "Scrap", "Tube", "Tape"]
@@ -119,7 +136,6 @@ def state_feed():
         milliseconds = data.pop()
 
         print("DATA BELOW")
-        print data
 
         if len(data) != 0:
             objects = []

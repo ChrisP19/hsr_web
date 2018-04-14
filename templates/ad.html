@@ -54,15 +54,11 @@
 		</style>
 	</head>
 	<body>
-		<div id="container-ad">
-
-			<div id="ad">
-				<div class="row">
-					<div class="col-xs-2">
-						<!-- REPLACE THE LOGO HERE WITH YOUR  UNIVERSITY, LAB, or COMPANY -->
-						<img id="adlogo" src="{{ server_location }}/static/images/berkeley.png" alt="Lab Logo" />
-					</div>
-					<div class="col-xs-10">
+	<div class="row" style = "margin-top: 150px">
+			<div class="col-xs-4">
+				<img src="{{ server_location }}/static/images/robot.png" alt="Lab Logo" style="width:70%; margin-top:10%; margin-left:30%; height:80%"/>
+			</div>
+			<div class="col-xs-6">
 
 							<!--
 								If assignmentid is "ASSIGNMENT_ID_NOT_AVAILABLE"
@@ -107,11 +103,11 @@
 									openwindow() function below if you want you experiment
 									to work.
 								-->
-							    <h1>Thank you for accepting this HIT!</h1>
-							    <p>
-							    	By clicking the following URL link, you will be taken to the experiment,
-							        including complete instructions and an informed consent agreement.
-							    </p>
+									<img src="{{ server_location }}/static/images/auto.png" alt="Lab Logo" style="width:130px"/>
+									<h1 style = "text-align:center"> Welcome to HSR Web Interface	</h1>
+									<p style = "text-align:center">
+										By clicking the following URL link, you will be taken to the HSR web interface.
+									</p>
 							    <script>
 									function openwindow() {
 							    		popup = window.open('{{ server_location }}/consent?hitId={{ hitid }}&assignmentId={{ assignmentid }}&workerId={{ workerid }}','Popup','toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=no,width='+1024+',height='+768+'');
