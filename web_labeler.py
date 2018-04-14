@@ -1,3 +1,4 @@
+
 import os
 import Pyro4
 import time
@@ -14,10 +15,12 @@ CANVAS_DIM = 420.0
 
 class Web_Labeler:
 
-	def __init__(self):
+	def __init__(self, robot_id, num_robots):
 		self.count = 0
+		self.robot_id = robot_id
+		self.num_robots = num_robots
 
-	def label_image(self, img_path):
+	def label(self, img_path):
 	    global sharer
 
 	    img = cv2.imread(img_path)
@@ -62,27 +65,27 @@ class Web_Labeler:
 
 		sharer.set_confidences(confidences_path)
 
-	def label_robots(self, robot_id, num_robots, img_path):
+	def label_image(self, img_path):
 
-		robots = np.arange(num_robots)
+		robots = np.arange(self.num_robots)
 		np.random.shuffle(robots)
 
 		for robot in robots:
 
-			print "Desired Robot: " + str(robot_id)
+			print "Desired Robot: " + str(self.robot_id)
 			print "Queued Robot: " + str(robot)
 
-			if robot == robot_id:
+			if robot == self.robot_id:
 				frame = "data/images/frame_" + str(robot) + ".png"
 			else:
 				frame = img_path
-			label_data = self.label_image(frame)
-			print(label_data)
-			print(float(label_data['time'])/1000.0)
-			print(float(label_data['latency'])/1000.0)
+			label_data = self.label(frame)
+			print("Label Data: ",label_data)
+			print("Time:" , float(label_data['time'])/1000.0)
+			print("Latency: ", float(label_data['latency'])/1000.0)
 			time.sleep(5)
 			pickle.dump(label_data, open("data/labels/" + str(robot) + ".p", 'wb'))
-			if robot == robot_id:
+			if robot == self.robot_id:
 				print "ROBOT LABELED"
 				return label_data
 				break;
@@ -90,9 +93,9 @@ class Web_Labeler:
 '''
 Example script below
 '''
-# labeler = Web_Labeler()
-# img_path = "data/images/frame_0.png"
-# labeler.label_robots(1, 5, img_path)
+labeler = Web_Labeler(1, 5)
+img_path = "data/images/frame_0.png"
+labeler.label_image(img_path)
 
 # for i in range(2):
 # 	img_path = "data/images/frame_" + str(i) + ".png"
