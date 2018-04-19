@@ -33,6 +33,8 @@ drawing = false;
 canDraw = true;
 tStart = 0;
 tEnd = 0;
+vector = false;
+curr_motion = 0
 
 // labels = ["Wrench", "Hammer", "Screwdriver", "Tape Measure", "Glue", "Tape"];
 labels = ["Screwdriver", "Scrap", "Tube", "Tape"];
@@ -76,8 +78,9 @@ addEventListener("mousedown", function (e) {
 	if (canDraw) {
 		pos = mouseToPos(e.clientX, e.clientY);
 		if (pos) {
-			if (drawing){
+			if (drawing) {
 				//record the bounding box
+				// console.log("drawing")
 				x1 = Math.min(old_pose[0], curr_pose[0]);
 				x2 = Math.max(old_pose[0], curr_pose[0]);
 				y1 = Math.min(old_pose[1], curr_pose[1]);
@@ -86,8 +89,25 @@ addEventListener("mousedown", function (e) {
 				addBbox([x1, y1, x2, y2], curr_label, curr_motion);
 				drawing = false;
 			}
+
+			else if (vector) {
+				// console.log("vector")
+				x1 = old_pose[0];
+				x2 = curr_pose[0];
+				y1 = old_pose[1];
+				y2 = curr_pose[1];
+
+				addBbox([x1, y1, x2, y2], curr_label, curr_motion);
+				vector = false;
+			}
+
 			else {
-				drawing = true;
+				// console.log(curr_motion == "Pickup")
+				if (curr_motion == "Pickup") {
+					drawing = true;
+				} else {
+					vector = true;
+				}
 				curr_pose = pos;
 				old_pose = pos;
 			}
@@ -97,7 +117,6 @@ addEventListener("mousedown", function (e) {
 
 function addBbox(bounds, label, motion) {
 	c = colors[color_ind];
-	color_ind += 1;
 	color_ind = color_ind % colors.length;
 	x1 = bounds[0]
 	y1 = bounds[1]
@@ -105,20 +124,6 @@ function addBbox(bounds, label, motion) {
 	y2 = bounds[3]
 
 	curr_boxes.push([[[x1, y1], [x2, y2]], c, label, motion]);
-
-	// var table = document.getElementById("boxinfo");
-	// var row = table.insertRow(-1);
-	// var cell = row.insertCell(0);
-	// var deleteBut = row.insertCell(1);
-	// deleteBut.innerHTML = "<button type='button'>Delete</button>";
-	// deleteBut.onclick = function() {
-	// 	var table = document.getElementById("boxinfo");
-	// 	var ind = this.parentNode.rowIndex;
-	// 	table.deleteRow(ind);
-	// 	curr_boxes.splice(ind, 1);
-	// }
-	// cell.innerHTML = label + ": (" + x1 + "," + y1 + ") -> (" + x2 + "," + y2 + ")";
-	// cell.style.color = c;
 }
 
 addEventListener("mousemove", function (e) {
@@ -265,16 +270,37 @@ function drawBox(poses)
 	ctx.stroke();
 }
 
+function drawVector(poses)
+{
+	p1 = poses[0];
+	p2 = poses[1];
+	ctx.beginPath();
+	ctx.moveTo(p1[0], p1[1]);
+	ctx.lineTo(p2[0], p2[1]);
+	ctx.lineWidth = 3;
+	ctx.stroke();
+
+}
+
 // Draw everything
 var render = function () {
+	// console.log(vector)
 	ctx.clearRect(0, 0, bboxcanvas.width, bboxcanvas.height);
 	for (var i = 0; i < curr_boxes.length; i++) {
-		ctx.strokeStyle =  curr_boxes[i][1];
-		drawBox(curr_boxes[i][0]);
+			ctx.strokeStyle =  curr_boxes[i][1];
+			if (curr_motion == "Pickup") {
+				drawBox(curr_boxes[i][0]);
+			} else {
+				drawVector(curr_boxes[i][0])
+			}
 	}
-	if (drawing){
+	if (drawing) {
 		ctx.strokeStyle = colors[color_ind];
 		drawBox([old_pose, curr_pose]);
+	}
+	if (vector) {
+		ctx.strokeStyle = colors[color_ind];
+		drawVector([old_pose, curr_pose]);
 	}
 
 

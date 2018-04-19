@@ -147,7 +147,7 @@ def state_feed():
 
                 print datapoint
 
-                obj['box'] = num_int
+                obj['coords'] = num_int
                 obj['class'] = labelclasses.index(datapoint[1])
                 obj['wID'] = datapoint[2]
                 obj['motion'] = motions.index(datapoint[3])

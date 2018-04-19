@@ -48,7 +48,7 @@ class Web_Labeler:
 
 		for label in labels['objects']:
 
-			non_scaled = label['box']
+			non_scaled = label['coords']
 
 			x_min = non_scaled[0]*(w_/CANVAS_DIM)
 			y_min = non_scaled[1]*(h_/CANVAS_DIM)
@@ -56,7 +56,7 @@ class Web_Labeler:
 			x_max = non_scaled[2]*(w_/CANVAS_DIM)
 			y_max = non_scaled[3]*(h_/CANVAS_DIM)
 
-			label['box'] = [int(a) for a in [x_min, y_min, x_max,y_max]]
+			label['coords'] = [int(a) for a in [x_min, y_min, x_max,y_max]]
 
 		return labels
 
@@ -89,7 +89,7 @@ class Web_Labeler:
 '''
 Example script below
 '''
-# labeler = Web_Labeler(1, 5)
+# labeler = Web_Labeler(5)
 # img_path = "data/images/frame_0.png"
 # labeler.label_image(img_path)
 
