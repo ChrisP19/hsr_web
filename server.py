@@ -143,7 +143,7 @@ def state_feed():
             for datapoint in zip(*[data[i::4] for i in range(4)]):
                 obj = {}
                 num_str = datapoint[0]
-                num_int = [int(el) for el in num_str.split(',')]
+                num_int = [int(float(el)) for el in num_str.split(',')]
 
                 print datapoint
 
